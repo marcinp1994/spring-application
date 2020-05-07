@@ -3,12 +3,12 @@ package pl.marcin.it.springapplication.exception.handler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import pl.marcin.it.springapplication.exception.FixerApiFoundException;
 import pl.marcin.it.springapplication.exception.TokenNotFoundException;
 import pl.marcin.it.springapplication.exception.UserAlreadyExistException;
 import pl.marcin.it.springapplication.exception.UserNotFoundException;
@@ -22,6 +22,12 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request){
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FixerApiFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleFixerApiFoundException(FixerApiFoundException ex, WebRequest request){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(TokenNotFoundException.class)

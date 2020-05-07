@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<body>
+
+<h1 layout:fragment="header">Exchange Rates: Convert your amount!</h1>
+
+<div layout:fragment="content"
+     class="container">
+    <p>&nbsp;</p>
+    <form th:action="@{/rates/convert}" th:object="${exchangeRatesData}" method="post">
+        <table>
+            <tr>
+                <td>From currency:</td>
+                <td><select th:field="*{fromCurrency}" class="form-control">
+                    <option th:each="currency : ${currenciesList}" th:value="${currency.code}"
+                            th:text="${currency.description}"/>
+                </select></td>
+            </tr>
+            <tr>
+                <td>To currency:</td>
+                <td><select th:field="*{toCurrency}" class="form-control">
+                    <option th:each="currency : ${currenciesList}" th:value="${currency.code}"
+                            th:text="${currency.description}"/>
+                </select></td>
+            </tr>
+            <tr>
+                <td>Amount:</td>
+                <td><input type="text" th:field="*{amount}" th:value="${exchangeRatesData.amount}" class="form-control"/></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="convert!" class="btn btn-primary"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <p>&nbsp;</p>
+    <div th:if="${convertedAmount != null}">
+        <h2><p class="bg-info"
+           th:text="'Converted amount for ' + ${exchangeRatesData.fromCurrency} + '/' + ${exchangeRatesData.toCurrency} + ' is ' + ${convertedAmount}">
+        </p></h2>
+    </div>
+</div>
+</body>
+</html>

@@ -4,8 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.marcin.it.springapplication.exception.UserAlreadyExistException;
 import pl.marcin.it.springapplication.exception.UserNotFoundException;
-import pl.marcin.it.springapplication.model.Token;
-import pl.marcin.it.springapplication.model.User;
+import pl.marcin.it.springapplication.model.user.Token;
+import pl.marcin.it.springapplication.model.user.User;
 import pl.marcin.it.springapplication.repository.TokenRepository;
 import pl.marcin.it.springapplication.repository.UserRepository;
 
@@ -16,10 +16,10 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private PasswordEncoder encoder;
-    private MailService mailService;
-    private TokenRepository tokenRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
+    private final MailService mailService;
+    private final TokenRepository tokenRepository;
 
     public UserService(UserRepository userRepository, PasswordEncoder encoder, TokenRepository tokenRepository, MailService mailService) {
         this.userRepository = userRepository;
@@ -71,7 +71,7 @@ public class UserService {
         token.setValue(tokenValue);
         token.setUser(user);
         tokenRepository.save(token);
-        //TODO nie hardkoduj! co jesli wdrozymy na wyzsze srodowisko!
+        //TODO prepare url based on environments
         String url = "http://localhost:8080/token?value=" + tokenValue;
         mailService.sendMail(user.getEmail(), "Please confirm your registration", url, false);
     }

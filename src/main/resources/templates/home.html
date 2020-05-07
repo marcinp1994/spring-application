@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<body>
+<h1 layout:fragment="header">Exchange rates: API methods</h1>
+
+<div layout:fragment="content"
+     class="container">
+    <p> </p>
+    <div class="card">
+        <h5 class="card-header">/rates/convert</h5>
+        <div class="card-body">
+            <h5 class="card-title">Convert your amount</h5>
+            <p class="card-text">This method allows to convert your amount into any currency</p>
+            <a href="/rates/convert" class="btn btn-primary">Go</a>
+        </div>
+    </div>
+    <p> </p>
+    <div class="card">
+        <h5 class="card-header">/rates/view/{currency}</h5>
+        <div class="card-body">
+            <h5 class="card-title">Check the all current rates for your currency</h5>
+            <p class="card-text">This method allows to check the current rates for your currency</p>
+            <input type="text" id="currency" name="currency" placeholder="Enter Currency"/>
+            <button type="button" id="currencyButton" name="currencyButton" class="btn btn-primary">Go</button>
+        </div>
+    </div>
+    <p> </p>
+    <div class="card">
+        <h5 class="card-header">/rates/view/{currency}?currencies={currency1,currency2}</h5>
+        <div class="card-body">
+            <h5 class="card-title">Check the current selected rates for your currency</h5>
+            <p class="card-text">This method allows to check the current selected rates for your currency</p>
+            <input type="text" id="currencies" name="currencies" placeholder="Enter Base Currency"/>
+            <input type="text" id="currenciesList" name="currenciesList" placeholder="Enter Currencies"/>
+            <button type="button" id="currenciesButton" name="currenciesButton" class="btn btn-primary">Go</button>
+        </div>
+    </div>
+    <p> </p>
+    <div class="card">
+        <h5 class="card-header">/country/{code}</h5>
+        <div class="card-body">
+            <h5 class="card-title">Check ISO code</h5>
+            <p class="card-text">This method allows to check ISO codes for selected Country</p>
+            <input type="text" id="countryCode" name="countryCode" placeholder="Enter ISO2 Country Code"/>
+            <button type="button" id="countryButton" name="countryButton" class="btn btn-primary">Go</button>
+        </div>
+    </div>
+    <p> </p>
+    <div class="card">
+        <h5 class="card-header">/users</h5>
+        <div class="card-body">
+            <h5 class="card-title">Get all users</h5>
+            <p class="card-text">This method allows to get all users from the system</p>
+            <a href="/users" class="btn btn-primary">Go</a>
+        </div>
+    </div>
+    <p> </p>
+    <div class="card">
+        <h5 class="card-header">/users/{name}</h5>
+        <div class="card-body">
+            <h5 class="card-title">Get user by username</h5>
+            <p class="card-text">This method allows to get user by username</p>
+            <input type="text" id="username" name="username" placeholder="Enter Username"/>
+            <button type="button" id="usernameButton" name="usernameButton" class="btn btn-primary">Go</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function() {
+        $('#currencyButton').click(function () {
+            var currency = document.getElementById("currency").value;
+            window.location.href = "/rates/view/" + currency;
+        })
+
+        $('#currenciesButton').click(function () {
+            var currency = document.getElementById("currencies").value;
+            var currenciesList = document.getElementById("currenciesList").value;
+            window.location.href = "/rates/view/" + currency + "?currencies=" + currenciesList;
+        })
+
+        $('#countryButton').click(function () {
+            var countryCode = document.getElementById("countryCode").value;
+            window.location.href = "/country/" + countryCode ;
+        })
+
+        $('#usernameButton').click(function () {
+            var username = document.getElementById("username").value;
+            window.location.href = "/users/" + username ;
+        })
+    });
+</script>

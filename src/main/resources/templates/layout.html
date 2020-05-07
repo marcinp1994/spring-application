@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<header class="navbar  navbar-light" style="background-color: #e3f2fd;">
+    <div class="container">
+        <div class="navbar-header">
+            <b><a class="navbar-brand" href="/home">SpringBoot Exchange Rates API</a></b>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <p class="navbar-text navbar-right">
+            <span th:if="${#httpServletRequest.remoteUser}">
+                Hello, <span th:text="${#httpServletRequest.remoteUser}"></span>
+                |
+                <input type="submit" class="btn btn-link" value="logout"/>
+            </span>
+
+                <span th:if="${#httpServletRequest.remoteUser == null}">
+                <button class="btn btn-default" th:href="@{/login}">login</button>
+            </span>
+            </p>
+        </form>
+    </div>
+</header>
+
+<div class="container">
+    <h1 layout:fragment="header">Replace</h1>
+    <div layout:fragment="content">
+    </div>
+</div>
+</body>
+</html>

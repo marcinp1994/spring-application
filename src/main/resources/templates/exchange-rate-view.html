@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<body>
+
+<h1 layout:fragment="header">Exchange Rates for: <b><th:block th:text="${baseCurrency}"/></b></h1>
+
+<div layout:fragment="content"
+     class="container">
+
+    <div th:if="${not #lists.isEmpty(ratesMap)}">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Currency</th>
+                <th scope="col">Exchange Rate</th>
+            </tr>
+            </thead>
+            <th:block th:each="rate : ${ratesMap}">
+                <tr>
+                    <td th:text="${rate.key}">Key</td>
+                    <td th:text="${rate.value}">Value</td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</div>
+</body>
+</html>

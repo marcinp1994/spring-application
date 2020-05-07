@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<body>
+<h1 layout:fragment="header">Create Account!</h1>
+
+<div layout:fragment="content"
+     class="container">
+    <form th:action="@{/register}" th:object="${user}" method="post">
+
+        <table>
+            <tr>
+                <td>Username</td>
+                <td><input type="text" th:field="*{username}" th:value="${username}" class="form-control"/></td>
+                <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" th:field="*{password}" class="form-control"/></td>
+                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+            </tr>
+            <tr>
+                <td>E-mail:</td>
+                <td><input type="text" th:field="*{email}" th:value="${email}" class="form-control"/></td>
+                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="register" class="btn btn-success"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

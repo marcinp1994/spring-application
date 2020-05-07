@@ -1,4 +1,4 @@
-package pl.marcin.it.springapplication.model;
+package pl.marcin.it.springapplication.model.user;
 
 import javax.persistence.*;
 

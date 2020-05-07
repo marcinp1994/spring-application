@@ -1,4 +1,4 @@
-package pl.marcin.it.springapplication.model;
+package pl.marcin.it.springapplication.model.user;
 
 
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -18,6 +19,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(min = 2, max = 20, message = "{user.info.name}")
     private String username;
     private String password;
     private String role;

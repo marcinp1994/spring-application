@@ -1,7 +1,10 @@
 package pl.marcin.it.springapplication.exception.handler;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
+@JsonFormat
 public class ExceptionResponse {
 
     private Date timestamp;
