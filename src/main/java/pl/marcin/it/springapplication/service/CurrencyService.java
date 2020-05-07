@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.marcin.it.springapplication.exception.FixerApiFoundException;
 import pl.marcin.it.springapplication.model.rates.Currency;
 import pl.marcin.it.springapplication.model.rates.response.CurrencyResponse;
-import pl.marcin.it.springapplication.utils.URLBuilderUtil;
+import pl.marcin.it.springapplication.utils.RestTemplateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +14,15 @@ import java.util.Map;
 @Service
 public class CurrencyService {
 
-    private final URLBuilderUtil urlBuilderUtil;
+    private final RestTemplateUtil restTemplateUtil;
 
-    public CurrencyService(URLBuilderUtil urlBuilderUtil) {
-        this.urlBuilderUtil = urlBuilderUtil;
+    public CurrencyService(RestTemplateUtil urlBuilderUtil) {
+        this.restTemplateUtil = urlBuilderUtil;
     }
 
     public List<Currency> getAllSupportedCurrencies(){
-        String url = urlBuilderUtil.buildURL(null, null, null, null, "symbols");
-        ResponseEntity<CurrencyResponse> currencyResponse = urlBuilderUtil.getDataFromFixerApi(url, CurrencyResponse.class);
+        String url = restTemplateUtil.buildURL(null, null, null, null, "symbols");
+        ResponseEntity<CurrencyResponse> currencyResponse = restTemplateUtil.getDataFromFixerApi(url, CurrencyResponse.class);
         if(currencyResponse.getStatusCode().is2xxSuccessful()){
             if(currencyResponse.getBody() != null && currencyResponse.getBody().isSuccess()){
                 Map<String, String> map = currencyResponse.getBody().getSymbols();

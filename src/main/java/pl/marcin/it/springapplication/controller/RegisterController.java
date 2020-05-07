@@ -1,13 +1,14 @@
 package pl.marcin.it.springapplication.controller;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.marcin.it.springapplication.Application;
 import pl.marcin.it.springapplication.exception.TokenNotFoundException;
 import pl.marcin.it.springapplication.model.user.Token;
 import pl.marcin.it.springapplication.model.user.User;
@@ -16,14 +17,12 @@ import pl.marcin.it.springapplication.repository.UserRepository;
 import pl.marcin.it.springapplication.service.UserService;
 
 import javax.mail.MessagingException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.Collection;
 import java.util.Optional;
 
 @Controller
 public class RegisterController {
+    private static final Logger LOGGER = LogManager.getLogger(RegisterController.class);
     private final UserService userService;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
@@ -37,10 +36,7 @@ public class RegisterController {
     @GetMapping("/home")
     public String home(Principal principal, Model model) {
         model.addAttribute("name", principal.getName());
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        model.addAttribute("authorities", authorities);
-        model.addAttribute("details", details);
+        LOGGER.info("User ['" + principal.getName() + "'] has successfully logged on to the application");
         return "home";
     }
 
@@ -53,6 +49,7 @@ public class RegisterController {
     @PostMapping("/register")
     public String register(User user, RedirectAttributes redirectAttributes) throws MessagingException {
         userService.addUser(user);
+        LOGGER.info("The user ['" + user.getUsername() + "']  was successfully created!");
         redirectAttributes.addFlashAttribute("registered", "success");
         return "redirect:login";
     }
@@ -63,12 +60,13 @@ public class RegisterController {
     }
 
     @GetMapping("/token")
-    public String token(HttpServletRequest request, @RequestParam String value) throws ServletException {
+    public String token(@RequestParam String value) {
         Optional<Token> tokenByValue = Optional.ofNullable(tokenRepository.findByValue(value)
                 .orElseThrow(() -> new TokenNotFoundException("Token not found!")));
         User user = tokenByValue.get().getUser();
         user.setEnabled(true);
         userRepository.save(user);
+        LOGGER.info("User ['" + user.getUsername() + "'] confirmed the account");
         return "redirect:login";
     }
 }

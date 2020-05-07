@@ -27,7 +27,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     @ExceptionHandler(FixerApiFoundException.class)
     public final ResponseEntity<ExceptionResponse> handleFixerApiFoundException(FixerApiFoundException ex, WebRequest request){
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(TokenNotFoundException.class)
