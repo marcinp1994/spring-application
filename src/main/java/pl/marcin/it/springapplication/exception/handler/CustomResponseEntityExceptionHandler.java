@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.marcin.it.springapplication.exception.FixerApiFoundException;
-import pl.marcin.it.springapplication.exception.TokenNotFoundException;
-import pl.marcin.it.springapplication.exception.UserAlreadyExistException;
-import pl.marcin.it.springapplication.exception.UserNotFoundException;
+import pl.marcin.it.springapplication.exception.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +25,12 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<ExceptionResponse> handleFixerApiFoundException(FixerApiFoundException ex, WebRequest request){
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(CountryApiFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleCountryApiFoundException(FixerApiFoundException ex, WebRequest request){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(TokenNotFoundException.class)

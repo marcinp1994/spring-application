@@ -34,4 +34,11 @@ public class RestResponse {
     public void setSayHello(String sayHello) {
         this.sayHello = sayHello;
     }
+
+    @Override
+    public String toString() {
+        return "RestResponse{" +
+                "messages=" + messages +
+                '}';
+    }
 }

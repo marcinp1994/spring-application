@@ -1,7 +1,5 @@
 package pl.marcin.it.springapplication.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.marcin.it.springapplication.exception.FixerApiFoundException;

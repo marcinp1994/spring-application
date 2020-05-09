@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.marcin.it.springapplication.exception.FixerApiFoundException;
-import pl.marcin.it.springapplication.model.rates.Currency;
 import pl.marcin.it.springapplication.model.rates.ExchangeRatesData;
 import pl.marcin.it.springapplication.model.rates.response.ExchangeRatesResponse;
 import pl.marcin.it.springapplication.service.CurrencyService;
@@ -21,16 +20,16 @@ import java.util.Optional;
 public class ExchangeRateController {
     private static final Logger LOGGER = LogManager.getLogger(ExchangeRateController.class);
     private final ExchangeRateService exchangeRateService;
-    private final List<Currency> currenciesList;
+    private final CurrencyService currencyService;
 
     public ExchangeRateController(ExchangeRateService exchangeRateService, CurrencyService currencyService) {
         this.exchangeRateService = exchangeRateService;
-        currenciesList = currencyService.getAllSupportedCurrencies();
+        this.currencyService = currencyService;
     }
 
     @GetMapping("/convert")
     public String convertCurrency(Model model){
-        model.addAttribute("currenciesList", currenciesList);
+        model.addAttribute("currenciesList", currencyService.getAllSupportedCurrencies());
         model.addAttribute("exchangeRatesData", new ExchangeRatesData());
         return "convert-amount";
     }
@@ -47,7 +46,7 @@ public class ExchangeRateController {
             throw new FixerApiFoundException("System encountered a problem when converting the amount. Please try again later!");
         }
 
-        model.addAttribute("currenciesList", currenciesList);
+        model.addAttribute("currenciesList", currencyService.getAllSupportedCurrencies());
         model.addAttribute("exchangeRatesData", exchangeRatesData);
         model.addAttribute("convertedAmount", convertedAmount.get());
         LOGGER.info("The amount has been correctly converted from=" + amount + " to=" +convertedAmount.get());
