@@ -35,7 +35,7 @@ public class UserService {
         return userRepository.findUserByUsername(name);
     }
 
-    public void addUser(User user) throws MessagingException {
+    public User addUser(User user) throws MessagingException {
         Optional<User> userByUsername = getUserByName(user.getUsername());
         if(userByUsername.isPresent()){
             LOGGER.error("Cannot add a User ['" + user.getUsername() + "'] to the database because such a user already exists!");
@@ -46,6 +46,7 @@ public class UserService {
         userRepository.save(user);
         LOGGER.info("New user ['" + user.getUsername() + "'] has been created in the database!");
         sendToken(user);
+        return user;
     }
 
     public List<User> getAllUsers(){
